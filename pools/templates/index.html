@@ -1,0 +1,49 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="utf-8">
+	<title>Avaliação</title>
+	<link rel="stylesheet" type="text/css" href="{% static  'bootstrap/css/bootstrap.min.css' %}">
+
+</head>
+<body>
+	<div class="panel panel-default">
+	  	<!-- Default panel contents -->
+	  	<div class="panel-heading">Pools</div>
+	  	<div class="panel-body">
+	    	<p>Bem-vindo a lista de perguntas</p>
+	  	</div>
+		  	<!-- Table -->
+		  	<table class="table">
+		    	<tr>
+		    		<th>Question</th>
+		    		<th>Published date</th>
+		    		<th>Status</th>
+		    		<th>Results</th>
+		    		<th>Manage</th>
+		    	</tr>
+		    	{% if questions %}
+		    		{% for question in questions %}
+		    			<tr>
+			    			<td>{{ question.question_text }}</td>
+			    			<td>{{ question.pub_date }}</td>
+			    			{% if question.closed %}
+								<td><a href="#" class="btn btn-danger">Closed</a></td>
+							{% else %}
+								<td><a href="{% url 'vote' question.id %}" class="btn btn-success">Vote</a></td>
+			    			{% endif %}
+			    			<!--td>{{ question.closed }}</td-->
+			    			{% if question.closed == True %}
+			    				<td><a href="{% url 'results' question.id %}" class="btn btn-primary">Result</a></td>
+			    			{% endif %}
+			    			<td><a href="{% url 'manage' question.id %}" class="btn btn-warning">Manage</a></td>
+		    			</tr>
+		    		{% endfor %}
+		    	{% else %}
+		    		<td>Nenhuma pergunta cadastrada</td>
+		    	{% endif %}
+		  	</table>
+	</div>
+</body>
+</html>
